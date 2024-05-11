@@ -34,9 +34,10 @@ class Paddle:
         self.height = PADDLE_HEIGHT
         self.x = (WIDTH - self.width) // 2
         self.y = HEIGHT - self.height - 10
+    
     def move(self, direction):
         if direction == "left" and self.x > 0:
-             self.x -= 10
+            self.x -= 10
         elif direction == "right" and self.x < WIDTH - self.width:
             self.x += 10
 
@@ -47,10 +48,12 @@ class Game:
         self.score = 0
         self.font = pygame.font.Font(None, 36)
         self.game_over = False
+    
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                 self.game_over = True
+                self.game_over = True
+    
     def update(self):
         self.ball.move()
         self.ball.check_collision()
@@ -58,19 +61,16 @@ class Game:
         if self.ball.y >= HEIGHT - BALL_RADIUS - PADDLE_HEIGHT:
             if self.paddle.x <= self.ball.x <= self.paddle.x + PADDLE_WIDTH:
                 self.ball.y = HEIGHT - BALL_RADIUS - PADDLE_HEIGHT - 1
-            self.ball.speed_y = -self.ball.speed_y
-            self.score += 1
-        else:
-            self.game_over = True
+                self.ball.speed_y = -self.ball.speed_y
+                self.score += 1
+            else:
+                self.game_over = True
     
     def draw(self, screen):
         screen.fill(BLACK)
-        pygame.draw.circle(screen, WHITE, (self.ball.x,
-self.ball.y), BALL_RADIUS)
-        pygame.draw.rect(screen, WHITE, (self.paddle.x,
-self.paddle.y, self.paddle.width, self.paddle.height))
-        score_text = self.font.render(f"Score: {self.score}",
-True, WHITE)
+        pygame.draw.circle(screen, WHITE, (self.ball.x, self.ball.y), BALL_RADIUS)
+        pygame.draw.rect(screen, WHITE, (self.paddle.x, self.paddle.y, self.paddle.width, self.paddle.height))
+        score_text = self.font.render(f"Score: {self.score}", True, WHITE)
         screen.blit(score_text, (10, 10))
         if self.game_over:
             game_over_text = self.font.render(f"Your score: {self.score}", True, WHITE)
